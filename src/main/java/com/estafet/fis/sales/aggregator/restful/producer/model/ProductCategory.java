@@ -7,8 +7,11 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
@@ -16,19 +19,16 @@ import javax.persistence.Table;
 public class ProductCategory {
 
 	@Id
-	@Column(name = "CATRGORY_CODE")
-	private String categoryCode;
+	@SequenceGenerator(name = "PRODUCT_CATEGORY_ID_SEQ", sequenceName = "PRODUCT_CATEGORY_ID_SEQ", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PRODUCT_CATEGORY_ID_SEQ")
+	@Column(name = "PRODUCT_CATEGORY_ID")
+	private String id;
 
 	@Column(name = "DESCRIPTION", nullable = false)
 	private String description;
 	
 	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Product> products = new ArrayList<Product>();
-
-	public ProductCategory setCategoryCode(String categoryCode) {
-		this.categoryCode = categoryCode;
-		return this;
-	}
 
 	public ProductCategory setDescription(String description) {
 		this.description = description;

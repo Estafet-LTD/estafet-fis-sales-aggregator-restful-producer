@@ -23,19 +23,19 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
-@Table(name = "PROJECT_SALES_BATCH")
+@Table(name = "PRODUCT_SALES_BATCH")
 public class ProductSalesBatch {
 
 	@Id
-	@SequenceGenerator(name = "PROJECT_SALES_BATCH_ID_SEQ", sequenceName = "PROJECT_SALES_BATCH_ID_SEQ", allocationSize = 1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PROJECT_SALES_BATCH_ID_SEQ")
-	@Column(name = "PROJECT_SALES_BATCH_ID")
+	@SequenceGenerator(name = "PRODUCT_SALES_BATCH_ID_SEQ", sequenceName = "PRODUCT_SALES_BATCH_ID_SEQ", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PRODUCT_SALES_BATCH_ID_SEQ")
+	@Column(name = "PRODUCT_SALES_BATCH_ID")
 	private Integer batchId;
 
 	@Column(name = "START_DATE", nullable = false, unique = true)
 	private String startDate;
 
-	@OneToMany(mappedBy = "productSalesBatch", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "batch", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<ProductSale> productSales = new HashSet<ProductSale>();
 
 	@JsonIgnore
@@ -44,7 +44,7 @@ public class ProductSalesBatch {
 
 	@JsonIgnore
 	@OneToOne
-	@JoinColumn(name = "PREV_PROJECT_SALES_BATCH_ID", nullable = false, referencedColumnName = "PREV_PROJECT_SALES_BATCH_ID")
+	@JoinColumn(name = "PRODUCT_SALES_BATCH_ID_SEQ", nullable = false, referencedColumnName = "PRODUCT_SALES_BATCH_ID")
 	private ProductSalesBatch previous;
 
 	public void setNext(ProductSalesBatch next) {

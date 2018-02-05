@@ -7,10 +7,13 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -22,15 +25,17 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Product {
 
 	@Id
-	@Column(name = "PRODUCT_CODE")
-	private String productCode;
+	@SequenceGenerator(name = "PRODUCT_ID_SEQ", sequenceName = "PRODUCT_ID_SEQ", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PRODUCT_ID_SEQ")
+	@Column(name = "PRODUCT_ID")
+	private int id;
 
 	@Column(name = "DESCRIPTION", nullable = false)
 	private String description;
 
 	@JsonIgnore
 	@ManyToOne
-	@JoinColumn(name = "CATEGORY_CODE", nullable = false, referencedColumnName = "CATEGORY_CODE")
+	@JoinColumn(name = "PRODUCT_CATEGORY_ID", nullable = false, referencedColumnName = "PRODUCT_CATEGORY_ID")
 	private ProductCategory category;
 	
 	@JsonIgnore
