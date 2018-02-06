@@ -30,9 +30,4 @@ public class ProductCategory {
 	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Product> products = new ArrayList<Product>();
 
-	public ProductCategory setDescription(String description) {
-		this.description = description;
-		return this;
-	}
-
 }

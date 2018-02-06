@@ -17,9 +17,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 @Table(name = "PRODUCT")
 public class Product {
@@ -41,5 +39,8 @@ public class Product {
 	@JsonIgnore
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<ProductSale> sales = new ArrayList<ProductSale>();
-	
+
+	public int getId() {
+		return id;
+	}
 }

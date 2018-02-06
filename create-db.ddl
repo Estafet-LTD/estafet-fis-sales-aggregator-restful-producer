@@ -5,7 +5,7 @@ create sequence PRODUCT_SALES_BATCH_ID_SEQ start 1 increment 1;
 create table PRODUCT (PRODUCT_ID int4 not null, DESCRIPTION varchar(255) not null, PRODUCT_CATEGORY_ID varchar(255) not null, primary key (PRODUCT_ID));
 create table PRODUCT_CATEGORY (PRODUCT_CATEGORY_ID varchar(255) not null, DESCRIPTION varchar(255) not null, primary key (PRODUCT_CATEGORY_ID));
 create table PRODUCT_SALE (PRODUCT_SALE_ID int4 not null, SOLD int4 not null, PRODUCT_SALES_BATCH_ID int4 not null, PRODUCT_ID int4 not null, primary key (PRODUCT_SALE_ID));
-create table PRODUCT_SALES_BATCH (PRODUCT_SALES_BATCH_ID int4 not null, START_DATE varchar(255) not null, PRODUCT_SALES_BATCH_ID_SEQ int4 not null, primary key (PRODUCT_SALES_BATCH_ID));
+create table PRODUCT_SALES_BATCH (PRODUCT_SALES_BATCH_ID int4 not null, START_DATE varchar(255) not null, PRODUCT_SALES_BATCH_ID_SEQ int4, primary key (PRODUCT_SALES_BATCH_ID));
 alter table PRODUCT_SALES_BATCH add constraint UK_io3inrpq0j71q7myf5di7pcaf unique (START_DATE);
 alter table PRODUCT add constraint FK66rtd2on6u46jc2lj0as98lxk foreign key (PRODUCT_CATEGORY_ID) references PRODUCT_CATEGORY;
 alter table PRODUCT_SALE add constraint FKje544hl9ot9ut4kincy0ckej9 foreign key (PRODUCT_SALES_BATCH_ID) references PRODUCT_SALES_BATCH;

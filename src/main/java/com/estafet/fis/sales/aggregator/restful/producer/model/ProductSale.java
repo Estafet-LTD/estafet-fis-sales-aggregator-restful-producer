@@ -12,14 +12,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 @Table(name = "PRODUCT_SALE")
 public class ProductSale {
 
+	@JsonIgnore
 	@Id
 	@SequenceGenerator(name = "PRODUCT_SALE_ID_SEQ", sequenceName = "PRODUCT_SALE_ID_SEQ", allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PRODUCT_SALE_ID_SEQ")
@@ -39,13 +39,28 @@ public class ProductSale {
 	@Column(name = "SOLD", nullable = false)
 	private int sold;
 
+	@JsonGetter
+	public int productId() {
+		return product.getId();
+	}
+	
+	@JsonGetter
+	public int getSold() {
+		return sold;
+	}
+
+	public ProductSale setBatch(ProductSalesBatch batch) {
+		this.batch = batch;
+		return this;
+	}
+
 	public ProductSale setProduct(Product product) {
 		this.product = product;
 		return this;
 	}
 
 	ProductSale init() {
-		this.sold = ThreadLocalRandom.current().nextInt(1, 10000); 
+		this.sold = ThreadLocalRandom.current().nextInt(1, 100); 
 		return this;
 	}
 

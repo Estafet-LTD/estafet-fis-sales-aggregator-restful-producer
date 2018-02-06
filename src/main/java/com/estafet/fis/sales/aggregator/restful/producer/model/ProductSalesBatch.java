@@ -1,5 +1,6 @@
 package com.estafet.fis.sales.aggregator.restful.producer.model;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashSet;
@@ -19,9 +20,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 @Table(name = "PRODUCT_SALES_BATCH")
 public class ProductSalesBatch {
@@ -44,15 +43,18 @@ public class ProductSalesBatch {
 
 	@JsonIgnore
 	@OneToOne
-	@JoinColumn(name = "PRODUCT_SALES_BATCH_ID_SEQ", nullable = false, referencedColumnName = "PRODUCT_SALES_BATCH_ID")
+	@JoinColumn(name = "PRODUCT_SALES_BATCH_ID_SEQ", nullable = true, referencedColumnName = "PRODUCT_SALES_BATCH_ID")
 	private ProductSalesBatch previous;
 
-	public void setNext(ProductSalesBatch next) {
-		next.previous = this;
-		this.next = next;
+	public void setPrevious(ProductSalesBatch previous) {
+		if (previous != null) {
+			previous.next = this;
+			this.previous = previous;
+		}
 	}
-	
+
 	public void addProductSale(ProductSale productSale) {
+		productSale.setBatch(this);
 		productSales.add(productSale);
 	}
 
@@ -60,16 +62,44 @@ public class ProductSalesBatch {
 		return batchId;
 	}
 
+	public String getStartDate() {
+		return startDate;
+	}
+
+	public Set<ProductSale> getProductSales() {
+		return productSales;
+	}
+
 	public ProductSalesBatch getNext() {
 		return next;
 	}
 
+	public ProductSalesBatch getPrevious() {
+		return previous;
+	}
+
 	public ProductSalesBatch init() {
-		startDate = toCalendarString(newCalendar());
+		if (previous == null) {
+			startDate = toCalendarString(newCalendar());
+		} else {
+			Calendar cal = toCalendar(previous.startDate);
+			cal.add(Calendar.DAY_OF_MONTH, 1);
+			startDate = toCalendarString(cal);
+		}
 		for (ProductSale sale : productSales) {
 			sale.init();
 		}
 		return this;
+	}
+
+	private Calendar toCalendar(String calendarString) {
+		try {
+			Calendar cal = newCalendar();
+			cal.setTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(calendarString));
+			return cal;
+		} catch (ParseException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	private String toCalendarString(Calendar calendar) {
