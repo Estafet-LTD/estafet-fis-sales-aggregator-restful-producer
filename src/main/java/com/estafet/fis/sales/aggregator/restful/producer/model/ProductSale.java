@@ -12,7 +12,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -26,11 +25,10 @@ public class ProductSale {
 	@Column(name = "PRODUCT_SALE_ID")
 	private Integer id;
 
-	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "PRODUCT_ID", nullable = false, referencedColumnName = "PRODUCT_ID")
 	private Product product;
-	
+
 	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "PRODUCT_SALES_BATCH_ID", nullable = false, referencedColumnName = "PRODUCT_SALES_BATCH_ID")
@@ -39,14 +37,12 @@ public class ProductSale {
 	@Column(name = "SOLD", nullable = false)
 	private int sold;
 
-	@JsonGetter
-	public int productId() {
-		return product.getId();
-	}
-	
-	@JsonGetter
 	public int getSold() {
 		return sold;
+	}
+
+	public Product getProduct() {
+		return product;
 	}
 
 	public ProductSale setBatch(ProductSalesBatch batch) {
@@ -60,7 +56,7 @@ public class ProductSale {
 	}
 
 	ProductSale init() {
-		this.sold = ThreadLocalRandom.current().nextInt(1, 100); 
+		this.sold = ThreadLocalRandom.current().nextInt(1, 100);
 		return this;
 	}
 

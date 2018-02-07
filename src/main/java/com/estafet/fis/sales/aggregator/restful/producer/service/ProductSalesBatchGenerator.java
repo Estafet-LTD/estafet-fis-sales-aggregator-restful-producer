@@ -20,13 +20,14 @@ public class ProductSalesBatchGenerator {
 	private ProductSalesBatchDAO productSalesBatchDAO;
 
 	@Transactional
-	public void generate() {
+	public ProductSalesBatch generate() {
 		ProductSalesBatch newBatch = new ProductSalesBatch();
 		for (Product product : productDAO.getProducts()) {
 			newBatch.addProductSale(new ProductSale().setProduct(product));
 		}
 		newBatch.setPrevious(productSalesBatchDAO.getLastProductSalesBatch());
 		productSalesBatchDAO.save(newBatch.init());
+		return newBatch;
 	}
 
 }

@@ -31,11 +31,10 @@ public class Product {
 	@Column(name = "DESCRIPTION", nullable = false)
 	private String description;
 
-	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "PRODUCT_CATEGORY_ID", nullable = false, referencedColumnName = "PRODUCT_CATEGORY_ID")
 	private ProductCategory category;
-	
+
 	@JsonIgnore
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<ProductSale> sales = new ArrayList<ProductSale>();
@@ -43,4 +42,13 @@ public class Product {
 	public int getId() {
 		return id;
 	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public ProductCategory getCategory() {
+		return category;
+	}
+
 }
