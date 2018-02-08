@@ -1,5 +1,4 @@
 create sequence PRODUCT_CATEGORY_ID_SEQ start 1 increment 1;
-create sequence PRODUCT_ID_SEQ start 1 increment 1;
 create sequence PRODUCT_SALE_ID_SEQ start 1 increment 1;
 create sequence PRODUCT_SALES_BATCH_ID_SEQ start 1 increment 1;
 create table PRODUCT (PRODUCT_ID int4 not null, DESCRIPTION varchar(255) not null, PRODUCT_CATEGORY_ID varchar(255) not null, primary key (PRODUCT_ID));
