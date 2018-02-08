@@ -22,8 +22,8 @@ public class ProductSalesBatchGeneratorJob implements Job {
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
 		ProductSalesBatch batch = generator.generate();
-//		restTemplate.postForObject(System.getenv("RESTFUL_PRODUCER_SERVICE_URI") + "/batch",
-//				batch, ProductSalesBatch.class);
+		restTemplate.postForObject(System.getenv("RESTFUL_PRODUCER_SERVICE_URI") + "/batch",
+				batch, ProductSalesBatch.class);
 	}
 
 }
