@@ -21,7 +21,7 @@ public class Product {
 
 	@Id
 	@Column(name = "PRODUCT_ID")
-	private int id;
+	private Integer id;
 
 	@Column(name = "DESCRIPTION", nullable = false)
 	private String description;
@@ -34,7 +34,7 @@ public class Product {
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<ProductSale> sales = new ArrayList<ProductSale>();
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 

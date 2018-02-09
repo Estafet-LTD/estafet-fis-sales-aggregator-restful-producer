@@ -42,9 +42,12 @@ public class ProductSalesBatch {
 	private ProductSalesBatch next;
 
 	@JsonIgnore
-	@OneToOne
-	@JoinColumn(name = "PRODUCT_SALES_BATCH_ID_SEQ", nullable = true, referencedColumnName = "PRODUCT_SALES_BATCH_ID")
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "PREV_PRODUCT_SALES_BATCH_ID", nullable = true, referencedColumnName = "PRODUCT_SALES_BATCH_ID")
 	private ProductSalesBatch previous;
+
+	@OneToOne(fetch = FetchType.LAZY)
+	private ProductSalesBatchStatus status;
 
 	public void setPrevious(ProductSalesBatch previous) {
 		if (previous != null) {
@@ -56,6 +59,10 @@ public class ProductSalesBatch {
 	public void addProductSale(ProductSale productSale) {
 		productSale.setBatch(this);
 		productSales.add(productSale);
+	}
+
+	public ProductSalesBatchStatus getStatus() {
+		return status;
 	}
 
 	public Integer getBatchId() {
@@ -76,6 +83,10 @@ public class ProductSalesBatch {
 
 	public ProductSalesBatch getPrevious() {
 		return previous;
+	}
+
+	public void setStatus(ProductSalesBatchStatus status) {
+		this.status = status;
 	}
 
 	public ProductSalesBatch init() {

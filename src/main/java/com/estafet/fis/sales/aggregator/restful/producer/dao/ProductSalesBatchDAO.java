@@ -9,6 +9,7 @@ import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
 
 import com.estafet.fis.sales.aggregator.restful.producer.model.ProductSalesBatch;
+import com.estafet.fis.sales.aggregator.restful.producer.model.ProductSalesBatchStatus;
 
 @Repository
 public class ProductSalesBatchDAO {
@@ -24,6 +25,10 @@ public class ProductSalesBatchDAO {
 		}
 	}
 
+	public ProductSalesBatchStatus getStatus() {
+		return entityManager.find(ProductSalesBatchStatus.class, Integer.valueOf(1));
+	}
+	
 	public ProductSalesBatch getFirstBatch() {
 		if (batchExists()) {
 			List<ProductSalesBatch> result = entityManager.createQuery(

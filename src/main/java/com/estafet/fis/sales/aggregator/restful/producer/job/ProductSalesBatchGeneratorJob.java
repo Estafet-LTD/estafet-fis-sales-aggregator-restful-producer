@@ -5,10 +5,9 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 
-import com.estafet.fis.sales.aggregator.restful.producer.model.ProductSalesBatch;
 import com.estafet.fis.sales.aggregator.restful.producer.service.ProductSalesBatchGenerator;
+import com.estafet.fis.sales.aggregator.restful.producer.service.ProductSalesBatchService;
 
 @Component
 public class ProductSalesBatchGeneratorJob implements Job {
@@ -17,13 +16,12 @@ public class ProductSalesBatchGeneratorJob implements Job {
 	private ProductSalesBatchGenerator generator;
 	
 	@Autowired
-	private RestTemplate restTemplate;
-	
+	private ProductSalesBatchService service;
+		
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
-		ProductSalesBatch batch = generator.generate();
-		restTemplate.postForObject(System.getenv("RESTFUL_PRODUCER_SERVICE_URI") + "/batch",
-				batch, ProductSalesBatch.class);
+		generator.generate();
+		service.updateConsumer();
 	}
 
 }
