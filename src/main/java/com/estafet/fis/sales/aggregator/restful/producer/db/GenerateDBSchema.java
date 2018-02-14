@@ -15,8 +15,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class GenerateDBSchema {
 
 	public static void main(String[] args) throws IOException {
-		File create = new File("create-db.sql");
-		File drop = new File("drop-db.sql");
+		File create = new File("create-restful-producer-db.sql");
+		File drop = new File("drop-restful-producer-db.sql");
 		create.delete();
 		drop.delete();
 		new ClassPathXmlApplicationContext("generate-db-application-context.xml").close();
